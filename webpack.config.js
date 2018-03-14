@@ -3,7 +3,7 @@ const path = require("path");
 const shellPlugin = require("webpack-shell-plugin");
 
 const hugoCmd = "hugo -d ../dist -s site -v";
-const hugoCmdPreview = "hugo --buildDrafts --buildFuture";
+const hugoCmdPreview = "hugo --source site --buildDrafts --buildFuture";
 
 module.exports = (env, argv) => {
   return {
