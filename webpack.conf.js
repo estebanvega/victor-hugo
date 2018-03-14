@@ -1,5 +1,8 @@
 const webpack = require("webpack");
 const path = require("path");
+const shellPlugin = require("webpack-shell-plugin");
+
+const hugoCommand = "hugo -d ../dist -s site -v";
 
 module.exports = (env, argv) => {
   return {
@@ -27,7 +30,8 @@ module.exports = (env, argv) => {
       new webpack.ProvidePlugin({
         fetch:
           "imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch"
-      })
+      }),
+      new shellPlugin({onBuildEnd: [hugoCommand]})
     ],
 
     output: {
