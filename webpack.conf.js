@@ -2,7 +2,8 @@ const webpack = require("webpack");
 const path = require("path");
 const shellPlugin = require("webpack-shell-plugin");
 
-const hugoCommand = "hugo -d ../dist -s site -v";
+const hugoCmd = "hugo -d ../dist -s site -v";
+const hugoCmdPreview = "hugo --buildDrafts --buildFuture";
 
 module.exports = (env, argv) => {
   return {
@@ -31,7 +32,9 @@ module.exports = (env, argv) => {
         fetch:
           "imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch"
       }),
-      new shellPlugin({onBuildEnd: [hugoCommand]})
+      new shellPlugin({
+        onBuildEnd: [argv.mode === "production" ? hugoCmd : hugoCmdPreview]
+      })
     ],
 
     output: {
