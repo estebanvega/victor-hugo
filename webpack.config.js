@@ -8,9 +8,9 @@ const hugoCmdPreview = "hugo --source site --buildDrafts --buildFuture";
 
 module.exports = (env, argv) => {
   return {
-    context: path.resolve(__dirname, "src"),
+    context: __dirname,
     entry: {
-      app: ["./js/app.js"]
+      app: ["./src/js/app.js"]
     },
     module: {
       rules: [
