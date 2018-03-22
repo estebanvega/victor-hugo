@@ -1,6 +1,7 @@
 const webpack = require("webpack");
 const path = require("path");
 const shellPlugin = require("webpack-shell-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const hugoCmd = "hugo -d ../dist -s site -v";
 const hugoCmdPreview = "hugo --source site --buildDrafts --buildFuture";
@@ -17,6 +18,14 @@ module.exports = (env, argv) => {
           test: /\.((png)|(eot)|(woff)|(woff2)|(ttf)|(svg)|(gif))(\?v=\d+\.\d+\.\d+)?$/,
           loader: "file-loader?name=/[hash].[ext]"
         },
+        {
+          test: /\.css$/,
+          use: [
+            MiniCssExtractPlugin.loader,
+            {loader: "css-loader", options: {importLoaders: 1}},
+            "postcss-loader"
+          ]
+        },
         {test: /\.json$/, loader: "json-loader"},
         {
           loader: "babel-loader",
@@ -28,6 +37,11 @@ module.exports = (env, argv) => {
     },
 
     plugins: [
+      new MiniCssExtractPlugin({
+        // Options similar to the same options in webpackOptions.output
+        // both options are optional
+        filename: "[name].css"
+      }),
       new webpack.ProvidePlugin({
         fetch:
           "imports-loader?this=>global!exports-loader?global.fetch!whatwg-fetch"
